@@ -10,7 +10,7 @@ export async function reCreateTable(
     req: Request,
     res: Response,
     next: NextFunction
-) {
+): Promise<Response | undefined> {
     try {
         await LoginService.forceCreateTable();
 
