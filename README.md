@@ -1,6 +1,5 @@
 # Node.js-TS-Feature
 Node.js &amp; TS &amp; Sequelize MVC 패턴 기본 구조 프로젝트
-Node.js & TypeScript & Sequelize MVC 패턴 기본 구조
 -------------
 
 해당 프로젝트는 프로젝트 기본 구조를 잡아놓은 프로젝트입니다.
