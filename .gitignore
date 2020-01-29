@@ -1,0 +1,17 @@
+# 모듈
+node_modules
+package-lock.json
+
+# 정적 파일 관련
+files
+
+# 배포 관련
+dist
+
+# VSCode TS 디버깅 관련
+.vscode
+
+# 테스트 관련
+coverage
+test
+test-reporter.html
