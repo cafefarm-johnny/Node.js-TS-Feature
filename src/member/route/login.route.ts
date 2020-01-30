@@ -14,4 +14,10 @@ export default (app: Application) => {
      * @author Johnny
      */
     app.get('/getRSAPublicKey', LoginController.getRSAPublicKey);
+
+    /**
+     * 비밀번호 암호화 요청 라우트
+     * @author Johnny
+     */
+    app.get('/passwordHash', LoginController.getEncryptPassword);
 };

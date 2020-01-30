@@ -1,5 +1,5 @@
 import Member from '../model/member';
-import { RSA } from '../../common/util.crypto';
+import { RSA, pbkdf2Hash, pbkdf2HashCompare } from '../../common/util.crypto';
 
 /**
  * 회원 테이블 재생성 서비스
@@ -34,4 +34,30 @@ export function getRSAKeys(): { publicKey: string; privateKey: string } {
     console.log('privateKey :', privateKey);
 
     return { publicKey, privateKey };
+}
+
+/**
+ * pbkdf2 암호화 서비스
+ * @author Johnny
+ * @param arg 암호화할 문자열
+ */
+export async function encrpytPBKDF2(arg: string): Promise<string> {
+    try {
+        const {
+            salt,
+            hashed
+        }: { salt: string; hashed: string } = await pbkdf2Hash(arg);
+
+        console.log('salt :', salt);
+        console.log('hashed :', hashed);
+
+        const compareHashValue: string = await pbkdf2HashCompare(arg, salt);
+
+        console.log('compareHashValue :', compareHashValue);
+
+        return hashed;
+    } catch (e) {
+        console.error('----- login.service :: encryptPBKDF2 -----');
+        throw Error(e);
+    }
 }

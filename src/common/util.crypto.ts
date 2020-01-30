@@ -6,7 +6,9 @@ import NodeRSA from 'node-rsa';
  * @author Johnny
  * @param target 암호화할 문자열
  */
-export function pbkdf2Hash(target: string): Promise<object> {
+export function pbkdf2Hash(
+    target: string
+): Promise<{ salt: string; hashed: string }> {
     /**
      * 1. 64바이트 길이의 랜덤 salt를 생성
      * 2. 콜백함수로 Buffer 타입의 buf를 base64로 문자열 salt로 변경
@@ -20,7 +22,7 @@ export function pbkdf2Hash(target: string): Promise<object> {
                 : crypto.pbkdf2(
                       target,
                       salt.toString('base64'),
-                      12663,
+                      126683,
                       32,
                       'sha512',
                       (err: Error | null, key: Buffer): any => {
@@ -28,11 +30,40 @@ export function pbkdf2Hash(target: string): Promise<object> {
                               ? reject(err)
                               : resolve({
                                     salt: salt.toString('base64'),
-                                    key: key.toString('base64')
+                                    hashed: key.toString('base64')
                                 });
                       }
                   );
         });
+    });
+}
+
+/**
+ * pbkdf2 단방향 암호화 해시값 비교
+ * @author Johnny
+ * @param target 암호화할 문자열
+ * @param salt pbkdf2Hash에서 생성한 base64 문자열 소금
+ */
+export function pbkdf2HashCompare(
+    target: string,
+    salt: string
+): Promise<string> {
+    /**
+     * 1. 동일한 해시값을 만들기 위해 pbkdf2Hash 함수에서 설정한 반복 횟수, 패스워드 길이, 해시 알고리즘을 동일하게 인자로 넘긴다.
+     * 2. pbkdf2Hash 함수에서 생성한 salt를 인자로 넘긴다.
+     * 3. 암호화할 문자열을 인자로 넘겨 암호화 된 값을 리턴받고 리턴받은 문자열을 base64로 인코딩한다.
+     */
+    return new Promise((resolve, reject) => {
+        crypto.pbkdf2(
+            target,
+            salt,
+            126683,
+            32,
+            'sha512',
+            (err: Error | null, key: Buffer): any => {
+                err ? reject(err) : resolve(key.toString('base64'));
+            }
+        );
     });
 }
 

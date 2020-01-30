@@ -47,3 +47,22 @@ export async function getRSAPublicKey(
         next(e);
     }
 }
+
+/**
+ * 비밀번호 pbkdf2 암호화 요청 예제
+ * @author Johnny
+ */
+export async function getEncryptPassword(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<Response | undefined> {
+    try {
+        const hashed = await LoginService.encrpytPBKDF2('abcdefg');
+
+        return res.json({ hashed });
+    } catch (e) {
+        console.error('----- login.controller :: getEncryptPassword -----');
+        next(e);
+    }
+}
