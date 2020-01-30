@@ -8,4 +8,10 @@ export default (app: Application) => {
      * @author Johnny
      */
     app.get('/test', LoginController.reCreateTable);
+
+    /**
+     * RSA 공개 키 요청 라우트
+     * @author Johnny
+     */
+    app.get('/getRSAPublicKey', LoginController.getRSAPublicKey);
 };

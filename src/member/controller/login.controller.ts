@@ -20,3 +20,30 @@ export async function reCreateTable(
         next(e);
     }
 }
+
+/**
+ * RSA 공개 키 발급 요청
+ * @author Johnny
+ */
+export async function getRSAPublicKey(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<Response | undefined> {
+    try {
+        const {
+            publicKey,
+            privateKey
+        }: {
+            publicKey: string;
+            privateKey: string;
+        } = LoginService.getRSAKeys();
+
+        req.session!.rsa = { privateKey };
+
+        return res.json({ publicKey });
+    } catch (e) {
+        console.error('----- login.controller :: getRSAPublicKey -----');
+        next(e);
+    }
+}

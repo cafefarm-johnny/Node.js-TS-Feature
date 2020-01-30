@@ -1,4 +1,5 @@
 import Member from '../model/member';
+import { RSA } from '../../common/util.crypto';
 
 /**
  * 회원 테이블 재생성 서비스
@@ -16,4 +17,21 @@ export async function forceCreateTable(): Promise<void> {
         console.error('----- login.service :: forceCreateTable -----');
         throw Error(e);
     }
+}
+
+/**
+ * RSA 공개 키, 개인 키 생성 서비스
+ * @author Johnny
+ */
+export function getRSAKeys(): { publicKey: string; privateKey: string } {
+    const rsa = new RSA();
+    const {
+        publicKey,
+        privateKey
+    }: { publicKey: string; privateKey: string } = rsa.generateKeys();
+
+    console.log('publicKey :', publicKey);
+    console.log('privateKey :', privateKey);
+
+    return { publicKey, privateKey };
 }
