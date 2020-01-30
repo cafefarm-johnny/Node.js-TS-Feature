@@ -14,4 +14,4 @@ dist
 # 테스트 관련
 coverage
 test
-test-reporter.html
+test-report.html
