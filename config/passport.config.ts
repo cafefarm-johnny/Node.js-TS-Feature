@@ -31,7 +31,11 @@ export default (passport: PassportStatic) => {
                 return done(null, false);
             }
 
-            return done(null, { ...member.get() }); // req.user에 저장한다.
+            return done(null, {
+                id: member.getDataValue('id'),
+                username: member.getDataValue('username'),
+                email: member.getDataValue('email')
+            }); // req.user에 저장한다.
         } catch (e) {
             console.error('----- Passport deserializeUser -----');
             return done(e);

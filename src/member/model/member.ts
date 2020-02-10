@@ -34,24 +34,29 @@ export default class Member extends Model<Member> {
     @Column(DataType.STRING(20))
     username!: string;
 
-    @Is('pwValidate', (v: string) => {
-        if (v && v.length < 8) {
-            throw new CustomError(400, '비밀번호는 8자 이상 작성해주세요.');
-        } else if (v && v.length > 20) {
-            throw new CustomError(
-                400,
-                '비밀번호는 20자 이상 작성하실 수 없습니다.'
-            );
-        }
-    })
+    // pbkdf2 암호화로 인해 암호화 전 검증으로 변경
+    // @Is('pwValidate', (v: string) => {
+    //     if (v && v.length < 8) {
+    //         throw new CustomError(400, '비밀번호는 8자 이상 작성해주세요.');
+    //     } else if (v && v.length > 20) {
+    //         throw new CustomError(
+    //             400,
+    //             '비밀번호는 20자 이상 작성하실 수 없습니다.'
+    //         );
+    //     }
+    // })
     @Comment('사용자 비밀번호')
-    @Column(DataType.STRING(50))
+    @Column(DataType.STRING(100))
     password!: string;
+
+    @Comment('비밀번호 암호화 salt')
+    @Column(DataType.STRING(100))
+    passwordSalt!: string;
 
     @AllowNull(true)
     @Default(null)
     @Comment('사용자 이전 사용 비밀번호')
-    @Column(DataType.STRING(50))
+    @Column(DataType.STRING(100))
     beforePassword!: string;
 
     @Is('emailValidate', (v: string) => {

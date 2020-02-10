@@ -7,10 +7,14 @@ import { RSA, pbkdf2Hash, pbkdf2HashCompare } from '../../common/util.crypto';
  */
 export async function forceCreateTable(): Promise<void> {
     try {
+        const hashed: { salt: string; key: string } = await encrpytPBKDF2(
+            '12341234'
+        );
         await Member.sync({ force: true }); // force: 테이블 존재하면 drop 후 생성
         await Member.create({
             username: 'test',
-            password: '12341234',
+            password: hashed.key,
+            passwordSalt: hashed.salt,
             email: 'test@gmail.com'
         });
     } catch (e) {
@@ -41,21 +45,23 @@ export function getRSAKeys(): { publicKey: string; privateKey: string } {
  * @author Johnny
  * @param arg 암호화할 문자열
  */
-export async function encrpytPBKDF2(arg: string): Promise<string> {
+export async function encrpytPBKDF2(
+    arg: string
+): Promise<{ salt: string; key: string }> {
     try {
         const {
             salt,
-            hashed
+            hashed: key
         }: { salt: string; hashed: string } = await pbkdf2Hash(arg);
 
         console.log('salt :', salt);
-        console.log('hashed :', hashed);
+        console.log('hashed :', key);
 
         const compareHashValue: string = await pbkdf2HashCompare(arg, salt);
 
         console.log('compareHashValue :', compareHashValue);
 
-        return hashed;
+        return { salt, key };
     } catch (e) {
         console.error('----- login.service :: encryptPBKDF2 -----');
         throw Error(e);

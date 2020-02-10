@@ -4,13 +4,17 @@ import { Strategy } from 'passport-local';
 
 import Member from '../src/member/model/member';
 
+import * as LoginService from '../src/member/service/login.service';
+
 import CustomError from '../src/error/custom.error';
+import { pbkdf2HashCompare } from '../src/common/util.crypto';
 
 /**
  * 패스포트 로컬 전략
  * @author Johnny
  */
 export default (passport: PassportStatic) => {
+    console.log('local.strategy');
     passport.use(
         new Strategy(
             {
@@ -37,7 +41,13 @@ export default (passport: PassportStatic) => {
                     password = password.toLowerCase();
 
                     const member = await Member.findOne({
-                        attributes: ['id', 'username', 'email'],
+                        attributes: [
+                            'id',
+                            'username',
+                            'password',
+                            'passwordSalt',
+                            'email'
+                        ],
                         where: {
                             username
                         }
@@ -45,7 +55,19 @@ export default (passport: PassportStatic) => {
 
                     if (!member) {
                         throw new CustomError(404, '존재하지 않는 계정입니다.');
-                    } else if (member.getDataValue('password') !== password) {
+                    }
+
+                    const hashedInputPassword = await pbkdf2HashCompare(
+                        password,
+                        member.getDataValue('passwordSalt')
+                    );
+
+                    console.log('member :', member.getDataValue('password'));
+                    console.log('hashedInputPassword :', hashedInputPassword);
+
+                    if (
+                        member.getDataValue('password') !== hashedInputPassword
+                    ) {
                         throw new CustomError(
                             400,
                             '패스워드가 일치하지 않습니다.'
@@ -53,7 +75,9 @@ export default (passport: PassportStatic) => {
                     }
 
                     return done(null, {
-                        ...member.get()
+                        id: member.getDataValue('id'),
+                        username: member.getDataValue('username'),
+                        email: member.getDataValue('email')
                     });
                 } catch (e) {
                     console.error('----- local.strategy -----');
