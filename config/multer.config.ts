@@ -18,12 +18,13 @@ export const imgMulter = multer({
             file: Express.Multer.File,
             cb: (error: Error | null, filename: string) => void
         ) => {
+            const fileNameExt: Array<string> = file.originalname.split('.');
             cb(
                 null,
-                `${file.originalname}-${dateformat(
+                `${fileNameExt[0]}-${dateformat(
                     Date.now(),
                     'yyyymmddhhMMss'
-                )}`
+                )}.${fileNameExt[1]}`
             );
         }
     }),

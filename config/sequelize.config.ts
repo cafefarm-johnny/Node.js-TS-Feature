@@ -60,7 +60,10 @@ export class DBSequelize {
                     host: envConfig.pgdb.host,
                     port: envConfig.pgdb.port,
                     dialect: envConfig.pgdb.dialect as Dialect,
-                    models: [path.join(__dirname + '/../src/member/model')]
+                    models: [
+                        path.join(__dirname + '/../src/member/model'),
+                        path.join(__dirname + '/../src/file/model')
+                    ]
                 });
                 break;
         }

@@ -18,6 +18,7 @@ import passportConfig from './passport.config';
 import localStrategy from './local.strategy';
 
 import loginRoute from '../src/member/route/login.route';
+import fileRoute from '../src/file/route/file.route';
 
 import ErrorHandler from '../src/error/error.handler';
 
@@ -206,6 +207,7 @@ export default (): express.Express => {
     localStrategy(passport);
 
     loginRoute(app);
+    fileRoute(app);
 
     app.use(ErrorHandler);
 
