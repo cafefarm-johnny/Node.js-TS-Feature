@@ -71,7 +71,7 @@ delete http://localhost:8080/logout http/1.1
 
 **단일 파일 업로드 요청**
 ```
-post http://localhost:8080/file/single http/1.1\
+post http://localhost:8080/file/single http/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFG
 
 ------WebKitFormBoundaryABCDEFG
