@@ -1,0 +1,20 @@
+get http://localhost:8080/test http/1.1
+###
+
+get http://localhost:8080/getRSAPublicKey http/1.1
+###
+
+get http://localhost:8080/passwordHash http/1.1
+###
+
+post http://localhost:8080/login http/1.1
+Content-Type: application/json
+
+{
+    "username": "test", 
+    "password": "12341234"
+}
+###
+
+delete http://localhost:8080/logout http/1.1
+###
