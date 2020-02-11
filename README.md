@@ -20,42 +20,48 @@
 ### 회원 예제 API
 
 
-**MEMBER 테이블 재생성 요청**
 
+
+
+
+**MEMBER 테이블 재생성 요청**
+```
 get http://localhost:8080/test http/1.1
+```
 
 
 
 **RSA 암호화 키 요청**
-
+```
 get http://localhost:8080/getRSAPublicKey http/1.1
+```
 
 
 
 **PBKDF2 HASH**
-
+```
 get http://localhost:8080/passwordHash http/1.1
+```
 
 
 
 **LOGIN 요청**
-
+```
 post http://localhost:8080/login http/1.1
-
 Content-Type: application/json
 
-
 {
-"username": "test",
-"password": "12341234"
+    "username": "test",
+    "password": "12341234"
 }
+```
 
 
 
 **LOGOUT 요청**
-
+```
 delete http://localhost:8080/logout http/1.1
-
+```
 
 
 
@@ -64,59 +70,40 @@ delete http://localhost:8080/logout http/1.1
 
 
 **단일 파일 업로드 요청**
-
-post http://localhost:8080/file/single http/1.1
-
+```
+post http://localhost:8080/file/single http/1.1\
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFG
 
-
 ------WebKitFormBoundaryABCDEFG
-
 Content-Disposition: form-data; name='img'; filename='fox.jpg'
-
 Content-Type: image/jpeg
 
-
 < C:/Users/Account/Downloads/bg/fox.jpg
-
 ------WebKitFormBoundaryABCDEFG--
-
+```
 
 
 **다중 파일 업로드 요청**
-
+```
 post http://localhost:8080/file/array http/1.1
-
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryHIJKLMN
 
-
 ------WebKitFormBoundaryHIJKLMN
-
 Content-Disposition: form-data; name='imgs'; filename='슬기1.jpg'
-
 Content-Type: image/jpeg
-
 
 < C:/Users/Account/Downloads/images/슬기1.jpg
 
-
 ------WebKitFormBoundaryHIJKLMN
-
 Content-Disposition: form-data; name='imgs'; filename='슬기2.jpg'
-
 Content-Type: image/jpeg
-
 
 < C:/Users/Account/Downloads/images/슬기2.jpg
 
-
 ------WebKitFormBoundaryHIJKLMN
-
 Content-Disposition: form-data; name='imgs'; filename='슬기3.jpg'
-
 Content-Type: image/jpeg
 
-
 < C:/Users/Account/Downloads/images/슬기3.jpg
-
 ------WebKitFormBoundaryHIJKLMN--
+```
